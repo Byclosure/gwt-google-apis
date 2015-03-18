@@ -42,6 +42,10 @@ public abstract class OAuth2Login {
 
   public abstract void authorize(
       final String clientId, Iterable<AuthScope> scopes, Callback<Void, Exception> callback);
+  
+  public abstract void setToken(OAuth2Token token);
+  
+  public abstract OAuth2Token getToken();
 
   private static final class Impl extends OAuth2Login {
     @Override
@@ -55,6 +59,7 @@ public abstract class OAuth2Login {
       // Ensure that the API library is loaded. If it is, this callback will be executed
       // immediately.
       GoogleApiLoader.get().load(new Callback<Void, Exception>() {
+    	  
         @Override
         public void onSuccess(Void v) {
           nativeAuthorize(clientId, scopesString, callback);
@@ -66,6 +71,22 @@ public abstract class OAuth2Login {
         }
       });
     }
+    
+    public void setToken(OAuth2Token token){
+    	setNativeToken(token);
+    }
+    
+    public OAuth2Token getToken(){
+    	return getNativeToken();
+    }
+    
+    private static final native void setNativeToken(OAuth2Token token)/*-{
+    	$wnd.gapi.auth.setToken(token);
+    }-*/;
+    
+    private static final native OAuth2Token getNativeToken()/*-{
+    	return $wnd.gapi.auth.getToken();
+    }-*/;
 
     private static final native void nativeAuthorize(String clientId, String scope,
         Callback<Void, Exception> callback) /*-{

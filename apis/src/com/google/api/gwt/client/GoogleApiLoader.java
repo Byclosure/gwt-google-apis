@@ -14,13 +14,13 @@
 
 package com.google.api.gwt.client;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.core.client.ScriptInjector;
-
-import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * Loads the Google API Javascript Client asynchronously.
